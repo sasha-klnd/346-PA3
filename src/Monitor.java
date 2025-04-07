@@ -12,13 +12,21 @@ public class Monitor
 	 * ------------
 	 */
 
+	 private boolean someoneTalking;
+	 private boolean[] chopsticks;
+
+
 
 	/**
 	 * Constructor
 	 */
 	public Monitor(int piNumberOfPhilosophers)
 	{
-		// TODO: set appropriate number of chopsticks based on the # of philosophers
+		someoneTalking = false;
+		chopsticks = new boolean[piNumberOfPhilosophers]; // Initialize chopsticks array
+		for (int i = 0; i < piNumberOfPhilosophers; i++) {
+			chopsticks[i] = false;
+		}
 	}
 
 	/*
@@ -31,10 +39,24 @@ public class Monitor
 	 * Grants request (returns) to eat when both chopsticks/forks are available.
 	 * Else forces the philosopher to wait()
 	 */
+
+
 	public synchronized void pickUp(final int piTID)
 	{
-		// ...
+		while (!chopsticks[piTID] && !chopsticks[(piTID + 1) % chopsticks.length]) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+
+		}
+		chopsticks[piTID] = true;
+		chopsticks[(piTID + 1) % chopsticks.length] = true;
+		notifyAll();
+
 	}
+
 
 	/**
 	 * When a given philosopher's done eating, they put the chopstiks/forks down
@@ -42,7 +64,9 @@ public class Monitor
 	 */
 	public synchronized void putDown(final int piTID)
 	{
-		// ...
+		chopsticks[piTID] = false;
+		chopsticks[(piTID + 1) % chopsticks.length] = false;
+		notifyAll();
 	}
 
 	/**
@@ -51,7 +75,15 @@ public class Monitor
 	 */
 	public synchronized void requestTalk()
 	{
-		// ...
+
+		while (someoneTalking) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
+		}
+		someoneTalking = true;
 	}
 
 	/**
@@ -60,8 +92,15 @@ public class Monitor
 	 */
 	public synchronized void endTalk()
 	{
-		// ...
+		someoneTalking = false;
+		notifyAll();
 	}
+
+	/**
+	 * Grants request (returns) to eat when both chopsticks/forks are available.
+	 * Else forces the philosopher to wait()
+	 */
+
 }
 
 // EOF
