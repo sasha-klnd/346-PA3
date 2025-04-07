@@ -51,6 +51,8 @@ public class DiningPhilosophers
 			// Make the monitor aware of how many philosophers there are
 			soMonitor = new Monitor(iPhilosophers);
 
+			System.out.println("num philosophers: " + iPhilosophers);
+
 			// Space for all the philosophers
 			Philosopher aoPhilosophers[] = new Philosopher[iPhilosophers];
 

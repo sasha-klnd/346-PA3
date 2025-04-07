@@ -97,18 +97,15 @@ public class Philosopher extends BaseThread
 
 			think();
 
-			/*
-			 * TODO:
-			 * A decision is made at random whether this particular
-			 * philosopher is about to say something terribly useful.
-			 */
+
 
             // We have added a 50% chance that the philosopher will speak
             double probability = 0.5;
 			if(Math.random() >= probability) {
-				// Some monitor ops down here...
+				DiningPhilosophers.soMonitor.requestTalk();
 				talk();
-				// ...
+				DiningPhilosophers.soMonitor.endTalk();
+				Thread.yield();
 			}
 
 			Thread.yield();

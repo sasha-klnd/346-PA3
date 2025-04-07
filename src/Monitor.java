@@ -43,7 +43,7 @@ public class Monitor
 
 	public synchronized void pickUp(final int piTID)
 	{
-		while (!chopsticks[piTID] && !chopsticks[(piTID + 1) % chopsticks.length]) {
+		while (chopsticks[piTID % chopsticks.length] || chopsticks[(piTID + 1) % chopsticks.length]) {
 			try {
 				wait();
 			} catch (InterruptedException e) {
@@ -51,7 +51,7 @@ public class Monitor
 			}
 
 		}
-		chopsticks[piTID] = true;
+		chopsticks[piTID % chopsticks.length] = true;
 		chopsticks[(piTID + 1) % chopsticks.length] = true;
 		notifyAll();
 
@@ -64,7 +64,7 @@ public class Monitor
 	 */
 	public synchronized void putDown(final int piTID)
 	{
-		chopsticks[piTID] = false;
+		chopsticks[piTID % chopsticks.length] = false;
 		chopsticks[(piTID + 1) % chopsticks.length] = false;
 		notifyAll();
 	}
