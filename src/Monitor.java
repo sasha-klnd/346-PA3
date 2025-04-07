@@ -84,6 +84,7 @@ public class Monitor
 			}
 		}
 		someoneTalking = true;
+		notifyAll();
 	}
 
 	/**
