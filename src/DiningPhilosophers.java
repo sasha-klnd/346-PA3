@@ -37,16 +37,29 @@ public class DiningPhilosophers
 	/**
 	 * Main system starts up right here
 	 */
-	public static void main(String[] argv)
+	public static void main(String[] args)
 	{
 		try
 		{
+			int numOfPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
+			if (args.length > 0) {
+				try {
+					numOfPhilosophers = Integer.parseInt(args[0]);
+					if (numOfPhilosophers <= 0) {
+						throw new NumberFormatException();
+					}
+
+				} catch (NumberFormatException e) {
+					System.out.println(args[0] + " is not a positive integer.");
+					System.out.println("We will use " + DEFAULT_NUMBER_OF_PHILOSOPHERS + " number of philosophers.");
+				}
+			}
 			/*
 			 * TODO:
 			 * Should be settable from the command line
 			 * or the default if no arguments supplied.
 			 */
-			int iPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
+			int iPhilosophers = numOfPhilosophers;
 
 			// Make the monitor aware of how many philosophers there are
 			soMonitor = new Monitor(iPhilosophers);
