@@ -52,6 +52,7 @@ public class DiningPhilosophers
 				} catch (NumberFormatException e) {
 					System.out.println(args[0] + " is not a positive integer.");
 					System.out.println("We will use " + DEFAULT_NUMBER_OF_PHILOSOPHERS + " number of philosophers.");
+					numOfPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
 				}
 			}
 			/*

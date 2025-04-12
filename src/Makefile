@@ -26,6 +26,15 @@ run: all
 regression: all
 	@for arg in 3 4 5; do $(JVM) $(EXE) $$arg; done
 
+custom: all
+	@echo "Running with $(N), $$(( $(N) + 1 )), and $$(( $(N) + 2 )) philosophers..."
+	@$(JVM) $(EXE) $(N)
+	@$(JVM) $(EXE) $$(( $(N) + 1 ))
+	@$(JVM) $(EXE) $$(( $(N) + 2 ))
+
+philos: all
+	$(JVM) $(EXE) $(N)
+
 clean:
 	rm -f $(CLASSES) #* *~
 
