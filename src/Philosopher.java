@@ -89,19 +89,17 @@ public class Philosopher extends BaseThread
 	public void run()
 	{
 		for(int i = 0; i < DiningPhilosophers.DINING_STEPS; i++) {
+			// Philosopher needs to try picking up the chopsticks before eating
 			DiningPhilosophers.soMonitor.pickUp(getTID());
-
 			eat();
-
 			DiningPhilosophers.soMonitor.putDown(getTID());
 
 			think();
 
-
-
             // We have added a 50% chance that the philosopher will speak
             double probability = 0.5;
 			if(Math.random() >= probability) {
+				// Philosophers need to check that no one else is talking before talking
 				DiningPhilosophers.soMonitor.requestTalk();
 				talk();
 				DiningPhilosophers.soMonitor.endTalk();

@@ -41,6 +41,7 @@ public class DiningPhilosophers
 	{
 		try
 		{
+			// Accepts valid integer args from the command line
 			int numOfPhilosophers = DEFAULT_NUMBER_OF_PHILOSOPHERS;
 			if (args.length > 0) {
 				try {

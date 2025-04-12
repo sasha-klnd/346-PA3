@@ -15,13 +15,13 @@ public class Monitor
 	 private boolean someoneTalking;
 	 private boolean[] chopsticks;
 
-
-
 	/**
 	 * Constructor
 	 */
 	public Monitor(int piNumberOfPhilosophers)
 	{
+		// There should be as many chopsticks as philosophers
+		// Initially they are all on the table, so they are initialized to false
 		someoneTalking = false;
 		chopsticks = new boolean[piNumberOfPhilosophers]; // Initialize chopsticks array
 		for (int i = 0; i < piNumberOfPhilosophers; i++) {
@@ -43,6 +43,7 @@ public class Monitor
 
 	public synchronized void pickUp(final int piTID)
 	{
+		// Busy wait if the surrounding chopsticks are already held
 		while (chopsticks[piTID % chopsticks.length] || chopsticks[(piTID + 1) % chopsticks.length]) {
 			try {
 				wait();
@@ -51,6 +52,8 @@ public class Monitor
 			}
 
 		}
+
+		// Otherwise pick them both up, notify all other threads
 		chopsticks[piTID % chopsticks.length] = true;
 		chopsticks[(piTID + 1) % chopsticks.length] = true;
 		notifyAll();
@@ -75,7 +78,7 @@ public class Monitor
 	 */
 	public synchronized void requestTalk()
 	{
-
+		// Busy wait if any other philosopher is already talking
 		while (someoneTalking) {
 			try {
 				wait();
